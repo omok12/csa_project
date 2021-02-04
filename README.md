@@ -19,3 +19,4 @@
 | account_29 |          220 |              165 | 75.0%            |
 | account_10 |          212 |              159 | 75.0%            |
 
+![Summary by Account](./img/Account_csa_summary.png)
