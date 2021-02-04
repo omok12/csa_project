@@ -1,3 +1,4 @@
 env/
+swan_env/
 __pycache__/
 *.swp
