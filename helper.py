@@ -20,6 +20,8 @@ def trunc_df(df, columns=['Trans Net Amt', 'Commission', 'total_csa_cost', 'port
 
 #make plots
 def make_plot(df):
+    df = df.sort_values(by='Commission', ascending=False)
+    print(df[['Commission', 'total_csa_cost', 'portion_to_csa']].to_markdown())
     plt.bar(df.index, df['Commission'], width = .8, color = 'b', label='Total Commission Amount')
     plt.bar(df.index, df['total_csa_cost'], width = .5,  color = 'r', label = 'Total CSA Cost')
     plt.legend()
