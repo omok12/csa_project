@@ -18,14 +18,10 @@ class CsaSummary:
         df['Total Abs Val Quantity'] = abs(df['Quantity'])
         df['Total Abs Val Trans Net Amt'] = abs(df['Trans Net Amt'])
         grouped_sum = df.groupby(self.aggregate_column).sum()
-        grouped_sum['portion_to_csa'] = ((grouped_sum['total_csa_cost'] / grouped_sum['Commission'])* 100).round(2).map('{}%'.format)
-        grouped_sum['commission_trans'] = ((grouped_sum['Commission'] / grouped_sum['Total Abs Val Trans Net Amt'])* 100).round(2).map('{}%'.format)
-        grouped_sum['csa_trans'] = ((grouped_sum['total_csa_cost'] / grouped_sum['Total Abs Val Trans Net Amt'])* 100).round(2).map('{}%'.format)
+        grouped_sum['portion_to_csa'] = grouped_sum['total_csa_cost'] / grouped_sum['Commission']
+        grouped_sum['commission_trans'] = grouped_sum['Commission'] / grouped_sum['Total Abs Val Trans Net Amt']
+        grouped_sum['csa_trans'] = grouped_sum['total_csa_cost'] / grouped_sum['Total Abs Val Trans Net Amt']
         return grouped_sum
-
-    #truncate df to show relevant columns
-    def trunc_df(self, df, columns=['Trans Net Amt', 'Commission', 'total_csa_cost', 'portion_to_csa']):
-        return df[columns]
 
     #to_markdown
     def to_markdown(self, df):
@@ -41,12 +37,20 @@ class CsaSummary:
         plt.savefig(f'./img/{self.aggregate_column}_csa_summary')
         plt.show()
 
+    def style_df(self, df):
+        percentage = ['portion_to_csa', 'commission_trans', 'csa_trans']
+        for c in percentage:
+            df[c] = (df[c]*100).apply('{:,.2f}%'.format)
+        dollar = ['total_csa_cost', 'Total Abs Val Trans Net Amt', 'Trans Net Amt', 'Commission', 'CSA Commission']
+        for c in dollar:
+            df[c] = (df[c]/100).apply('${0:,.2f}'.format)
+        return df
+
     def run(self, columns,sort=False, plot=False):
         df = self.csa_cost(self.import_clean_csv())
         if sort:
             df = df.sort_values(by=sort, ascending=False)
         if plot:
-            self.to_markdown(df[columns])
             self.make_plot(df[columns])
-        else:
-            self.to_markdown(df[columns])
+        df = self.style_df(df)
+        self.to_markdown(df[columns])
