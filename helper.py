@@ -32,6 +32,7 @@ class CsaSummary:
     def make_plot(self, df):
         plt.bar(df.index, df['Commission'], width = .8, color = 'b', label='Total Commission Amount')
         plt.bar(df.index, df['total_csa_cost'], width = .5,  color = 'r', label = 'Total CSA Cost')
+        plt.xticks(rotation=90)
         plt.legend()
         plt.savefig(f'./img/{self.aggregate_column}_csa_summary')
         plt.show()
