@@ -16,10 +16,11 @@ class CsaSummary:
     def csa_cost(self, df, sort='Commission'):
         df['total_csa_cost'] = abs(df['Quantity']) * df['CSA Commission']
         df['Total Abs Val Quantity'] = abs(df['Quantity'])
+        df['Total Abs Val Trans Net Amt'] = abs(df['Trans Net Amt'])
         grouped_sum = df.groupby(self.aggregate_column).sum()
         grouped_sum['portion_to_csa'] = ((grouped_sum['total_csa_cost'] / grouped_sum['Commission'])* 100).round(2).map('{}%'.format)
-        grouped_sum['commission_trans'] = ((grouped_sum['Commission'] / grouped_sum['Trans Net Amt'])* 100).round(2).map('{}%'.format)
-        grouped_sum['csa_trans'] = ((grouped_sum['total_csa_cost'] / grouped_sum['Trans Net Amt'])* 100).round(2).map('{}%'.format)
+        grouped_sum['commission_trans'] = ((grouped_sum['Commission'] / grouped_sum['Total Abs Val Trans Net Amt'])* 100).round(2).map('{}%'.format)
+        grouped_sum['csa_trans'] = ((grouped_sum['total_csa_cost'] / grouped_sum['Total Abs Val Trans Net Amt'])* 100).round(2).map('{}%'.format)
         grouped_sum = grouped_sum.sort_values(by=sort, ascending=False)
         return grouped_sum
 
