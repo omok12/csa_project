@@ -34,6 +34,7 @@ class CsaSummary:
         plt.bar(df.index, df['total_csa_cost'], width = .5,  color = 'r', label = 'Total CSA Cost')
         plt.xticks(rotation=90)
         plt.legend()
+        plt.tight_layout()
         plt.savefig(f'./img/{self.aggregate_column}_csa_summary')
         plt.show()
 

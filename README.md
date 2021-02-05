@@ -23,6 +23,8 @@
 
 ![Summary by Account w/o account_26](./img/account_csa_summary_no_26.png)
 
+![Summary by Underlying](./img/Underlying_csa_summary.png)
+
 | Underlying   |   Commission |   total_csa_cost | portion_to_csa   |
 |:-------------|-------------:|-----------------:|:-----------------|
 | SPX          |       345012 |           258759 | 75.0%            |
