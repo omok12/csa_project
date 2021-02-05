@@ -21,7 +21,6 @@ class CsaSummary:
         grouped_sum['portion_to_csa'] = ((grouped_sum['total_csa_cost'] / grouped_sum['Commission'])* 100).round(2).map('{}%'.format)
         grouped_sum['commission_trans'] = ((grouped_sum['Commission'] / grouped_sum['Total Abs Val Trans Net Amt'])* 100).round(2).map('{}%'.format)
         grouped_sum['csa_trans'] = ((grouped_sum['total_csa_cost'] / grouped_sum['Total Abs Val Trans Net Amt'])* 100).round(2).map('{}%'.format)
-        grouped_sum = grouped_sum.sort_values(by=sort, ascending=False)
         return grouped_sum
 
     #truncate df to show relevant columns
@@ -42,8 +41,10 @@ class CsaSummary:
         plt.savefig(f'./img/{self.aggregate_column}_csa_summary')
         plt.show()
 
-    def run(self, columns, plot=False):
+    def run(self, columns,sort=False, plot=False):
         df = self.csa_cost(self.import_clean_csv())
+        if sort:
+            df = df.sort_values(by=sort, ascending=False)
         if plot:
             self.to_markdown(df[columns])
             self.make_plot(df[columns])
