@@ -23,11 +23,9 @@ class CsaSummary:
         grouped_sum['csa_trans'] = grouped_sum['total_csa_cost'] / grouped_sum['Total Abs Val Trans Net Amt']
         return grouped_sum
 
-    #to_markdown
     def to_markdown(self, df):
         print(df.to_markdown())
 
-    #make plots
     def make_plot(self, df):
         plt.bar(df.index, df['Commission'], width = .8, color = 'b', label='Total Commission Amount')
         plt.bar(df.index, df['total_csa_cost'], width = .5,  color = 'r', label = 'Total CSA Cost')
