@@ -42,9 +42,9 @@ class CsaSummary:
         plt.savefig(f'./img/{self.aggregate_column}_csa_summary')
         plt.show()
 
-    def run(self, columns):
+    def run(self, columns, plot=False):
         df = self.csa_cost(self.import_clean_csv())
-        if type(self.aggregate_column) is str:
+        if plot:
             self.to_markdown(df[columns])
             self.make_plot(df[columns])
         else:
