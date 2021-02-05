@@ -23,6 +23,8 @@
 
 ![Summary by Account w/o account_26](./img/account_csa_summary_no_26.png)
 
+# Part 2:  Provide a summary of Commissions and CSA by Underlying (Column Q).  This can be done in Aggregate and doesn't need to be done by account. 
+
 ![Summary by Underlying](./img/Underlying_csa_summary.png)
 
 | Underlying   |   Commission |   total_csa_cost | portion_to_csa   |
