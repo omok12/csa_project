@@ -15,8 +15,11 @@ class CsaSummary:
     #find sum of csa and groupby 
     def csa_cost(self, df, sort='Commission'):
         df['total_csa_cost'] = abs(df['Quantity']) * df['CSA Commission']
+        df['Total Abs Val Quantity'] = abs(df['Quantity'])
         grouped_sum = df.groupby(self.aggregate_column).sum()
-        grouped_sum['portion_to_csa'] = ((grouped_sum['total_csa_cost'] / grouped_sum['Commission'])* 100).map('{}%'.format)
+        grouped_sum['portion_to_csa'] = ((grouped_sum['total_csa_cost'] / grouped_sum['Commission'])* 100).round(2).map('{}%'.format)
+        grouped_sum['commission_trans'] = ((grouped_sum['Commission'] / grouped_sum['Trans Net Amt'])* 100).round(2).map('{}%'.format)
+        grouped_sum['csa_trans'] = ((grouped_sum['total_csa_cost'] / grouped_sum['Trans Net Amt'])* 100).round(2).map('{}%'.format)
         grouped_sum = grouped_sum.sort_values(by=sort, ascending=False)
         return grouped_sum
 
@@ -26,7 +29,7 @@ class CsaSummary:
 
     #to_markdown
     def to_markdown(self, df):
-        print(df[['Commission', 'total_csa_cost', 'portion_to_csa']].to_markdown())
+        print(df.to_markdown())
 
     #make plots
     def make_plot(self, df):
@@ -38,10 +41,10 @@ class CsaSummary:
         plt.savefig(f'./img/{self.aggregate_column}_csa_summary')
         plt.show()
 
-    def run(self, outlier = False):
+    def run(self, columns):
         df = self.csa_cost(self.import_clean_csv())
         if type(self.aggregate_column) is str:
-            self.to_markdown(df)
-            self.make_plot(df)
+            self.to_markdown(df[columns])
+            self.make_plot(df[columns])
         else:
-            self.to_markdown(df)
+            self.to_markdown(df[columns])
